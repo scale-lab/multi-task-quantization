@@ -8,7 +8,7 @@ This is a forked directory of the official implementation of the paper: **E-MTL:
 
 If you'd like to run the standalone E-MTL model, checkout [EMTL Repo](https://github.com/scale-lab/E-MTL/tree/main).
 
-An example run of the project:
+An example run of a specific quantization configuration:
 
 ```
 python -m torch.distributed.launch --nproc_per_node 1 --master_port $1 main.py --cfg configs/swin/swin_tiny_patch4_window7_224.yaml --pascal ../../data/shared/AdaMTL/data/PASCAL_MT --tasks $5 --batch-size 96 --ckpt-freq=100 --epoch=400 --eval-freq 100 --resume-backbone pretrained/swin_tiny_patch4_window7_224.pth --name $2/ --wieb $3 --widbpt $4 --output ../../data/shared/QEMTL/
