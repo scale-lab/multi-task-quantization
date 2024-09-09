@@ -1,45 +1,46 @@
-# E-MTL: Efficient Multi-task Learning Architecture using Hybrid Transformer and ConvNet blocks
+# Multi-Task Learning Quantization: Evaluating Impact of Task-Specific Quantization on Overall Performance
 
 ## Introduction
 
-This is the official implementation of the paper: **E-MTL: Efficient Multi-task Learning Architecture using Hybrid Transformer and ConvNet blocks**. 
-
-This repository provides a Python-based implementation of the MTL architecture proposed in the paper. The repository is based upon [Swin-Transformer](https://github.com/microsoft/Swin-Transformer) and uses some modules from [Multi-Task-Learning-PyTorch](https://github.com/SimonVandenhende/Multi-Task-Learning-PyTorch).
-
+This is a forked directory of the official implementation of the paper: **E-MTL: Efficient Multi-task Learning Architecture using Hybrid Transformer and ConvNet blocks**. This repository explores the effect of quantization on different modules of an Efficient Multi-Task Learning Model.
 
 ## How to Run
 
-Running E-MTL code is very similar to Swin's codebase:
+If you'd like to run the standalone E-MTL model, checkout [EMTL Repo](https://github.com/scale-lab/E-MTL/tree/main).
 
-1. **Clone the repository**
-    ```bash
-    git clone https://github.com/scale-lab/E-MTL.git
-    cd E-MTL
-    ```
+An example run of the project:
 
-2. **Install the prerequisites**
-    - Install `PyTorch>=1.12.0` and `torchvision>=0.13.0` with `CUDA>=11.6`
-    - Install dependencies: `pip install -r requirements.txt`
+```
+python -m torch.distributed.launch --nproc_per_node 1 --master_port $1 main.py --cfg configs/swin/swin_tiny_patch4_window7_224.yaml --pascal ../../data/shared/AdaMTL/data/PASCAL_MT --tasks $5 --batch-size 96 --ckpt-freq=100 --epoch=400 --eval-freq 100 --resume-backbone pretrained/swin_tiny_patch4_window7_224.pth --name $2/ --wieb $3 --widbpt $4 --output ../../data/shared/QEMTL/
+```
+Relevant Arguments: 
 
-3. **Run the code**
-        ```
-        python main.py --cfg configs/swin/<swin variant>.yaml --pascal <path to pascal database> --tasks semseg,normals,sal,human_parts --batch-size <batch size> --ckpt-freq=20 --epoch=300 --resume-backbone <path to the weights of the chosen Swin variant>
-        ```
+| Argument   | Example   | Description   |
+|------------|------------|------------|
+| --nproc_per_node | 1 | Row 1 Col3 |
+| --master_port | 11111 | Row 2 Col3 |
+| --cfg | configs/swin/swin_tiny_patch4_window7_224.yaml | swin backend configuration |
+| --tasks | semseg,normals,sal,human_parts | tasks performed by the MTL |
+| --resume-backbone | pretrained/swin_tiny_patch4_window7_224.pth | loading init weights |
+| --wieb | 6-8 | weights, inputs encoder bits for quantization |
+| --widbpt | 8-8,8-8,8-8,8-8 | decoder-specific in-order weights, inputs quantized bits |
+
+
   
 ## Authorship
-Since the release commit is squashed, the GitHub contributors tab doesn't reflect the authors' contributions. The following authors contributed equally to this codebase:
-- [Ahmed Agiza](https://github.com/ahmed-agiza)
+Current Authors of the project:
+- [Mahdi Boulila](https://github.com/MahdiBoulila)
 - [Marina Neseem](https://github.com/marina-neseem)
 
 ## Citation
 If you find E-MTL helpful in your research, please cite our paper:
 ```
-@inproceedings{neseem2023emtl,
+@inproceedings{boulila2024qmtl,
   title={E-MTL: Efficient Multi-task Learning Architecture using Hybrid Transformer and ConvNet blocks},
-  author={Agiza, Ahmed and Neseem, Marina and Reda, Sherief},
+  author={Boulila, Mahdi and Neseem, Marina and Reda, Sherief},
   booktitle={},
   pages={},
-  year={2023}
+  year={2024}
 }
 ```
 
