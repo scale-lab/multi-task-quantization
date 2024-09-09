@@ -17,8 +17,7 @@ Relevant Arguments:
 
 | Argument   | Example   | Description   |
 |------------|------------|------------|
-| --nproc_per_node | 1 | Row 1 Col3 |
-| --master_port | 11111 | Row 2 Col3 |
+| --nproc_per_node | 1 | number of GPUs |
 | --cfg | configs/swin/swin_tiny_patch4_window7_224.yaml | swin backend configuration |
 | --tasks | semseg,normals,sal,human_parts | tasks performed by the MTL |
 | --resume-backbone | pretrained/swin_tiny_patch4_window7_224.pth | loading init weights |
